@@ -1,0 +1,13 @@
+passlib
+httpx
+fastapi
+SQLAlchemy
+pydantic
+databases
+uvicorn
+psycopg2-binary
+asyncpg
+python-jose
+python-multipart
+
+

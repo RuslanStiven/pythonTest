@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 170501rusa
+      POSTGRES_DB: pythonbase
+    networks:
+      - pythontest
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL = postgresql+asyncpg://postgres:170501rusa@db:5432/pythonbase
+    depends_on:
+      - db
+    networks:
+      - pythontest
+    entrypoint: ["sh", "-c", "python create_table.py $$ python add_users.py && uvicorn main:app --host 0.0.0.0 --port 8000"]
+
+networks:
+  pythontest:
+    driver: bridge
